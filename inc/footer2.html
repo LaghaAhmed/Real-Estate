@@ -1,0 +1,222 @@
+
+      <footer style=' clear: both; position: relative; z-index: 10; height: 1.2em; margin-top: 9em;'>
+       <hr>
+        <p>&copy; Company 2014</p>
+      </footer>
+
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/bootstrap-transition.js"></script>
+    <script src="js/bootstrap-alert.js"></script>
+    <script src="js/bootstrap-modal.js"></script>
+    <script src="js/bootstrap-dropdown.js"></script>
+    <script src="js/bootstrap-scrollspy.js"></script>
+    <script src="js/bootstrap-tab.js"></script>
+    <script src="js/bootstrap-tooltip.js"></script>
+    <script src="js/bootstrap-popover.js"></script>
+    <script src="js/bootstrap-button.js"></script>
+    <script src="js/bootstrap-collapse.js"></script>
+    <script src="js/bootstrap-carousel.js"></script>
+    <script src="js/bootstrap-typeahead.js"></script>
+<script>
+$(document).ready(function(){
+
+    $(".bigbox").hide();
+    $("#ibox").hide();
+    $("#cbox").hide();
+
+  $(".inscrir").click(function(){
+    $(".bigbox").show();
+    $("#ibox").slideDown();
+    $("#cbox").hide();
+  });
+
+  $(".connect").click(function(){
+    $(".bigbox").show();
+    $("#cbox").slideDown();
+    $("#ibox").hide();
+  });
+  $(".fermer").click(function(){
+      $(".bigbox").hide();
+      $("#cbox").hide();
+      $("#ibox").hide();
+  });
+
+  $(".savelien").click(function savelien(){
+  $(this).hide();
+  });
+  $(".unsavelien").click(function unsavelien(){
+  $(".savelien").show();
+  });
+  $(".unsavelieni").click(function savelien(){
+  $(this).hide();
+  });
+  $(".savelieni").click(function unsavelien(){
+  $(".unsavelieni").show();
+  });
+
+  $(".divimage").hide();
+
+  $(".f .nmp").hide();
+  $(".btn1").click(function(){
+    $(".f .nmp").slideUp();
+    $(".btn2").show();
+  });
+  $(".btn2").click(function(){
+    $(".f .nmp").slideDown();
+    $(".btn2").hide();
+  });
+
+
+
+});
+</script>
+
+<!--************************************************Partie jQuery pour le map***********************************************************************-->
+
+    <script type="text/javascript">
+    jQuery(function($){
+    $('.map').append('<div class="overlay">').append('<div class="tooltip">salut</div>');
+    $('.map .tooltip').hide();
+    var regions =[
+    {name : 'france',slug:'france'},
+    {name : 'italie',slug:'Suisse'},
+    {name : 'suisse',slug:'france'},
+    {name : 'allemagne',slug:'Suisse'},
+    {name : 'tcheque',slug:'france'},
+    {name : 'pays-bas',slug:'Suisse'},
+    {name : 'belgique',slug:'Suisse'},
+    {name : 'luxembourg',slug:'france'},
+    {name : 'UK',slug:'Suisse'},
+    {name : 'espagne',slug:'france'},
+    {name : 'portugal',slug:'Suisse'}
+    ];
+    //tooltip qui suit la souris
+    $(document).mousemove(function(e){
+      $('.map .tooltip').css({
+        top:e.pageY-200,
+        left:e.pageX-960
+      });
+    });
+    //en posant la souris sur un pays
+    $('map area').mouseover(function(){
+    var index=$(this).index();
+    var left=-index * 429 -429;
+    $('.map .tooltip').html(regions[index].name).stop().fadeTo(500,1);
+      $('.map .overlay').css({
+      backgroundPosition : left+"px 0px"
+      });
+    });
+    //en sortant la souris du map
+    $('.map').mouseout(function(){
+      $('.map .overlay').css({
+      backgroundPosition : "429px 0px"
+      });
+    $('.map .tooltip').stop().fadeTo(100,0);
+    });
+    });
+    </script>
+    <!--***********************************envoi du formulaire on upload******************************************************************* -->
+
+   <script type='text/javascript'>
+  $.fn.upload = function(remote,data,successFn,progressFn) {
+    // if we dont have post data, move it along
+    if(typeof data != "object") {
+        progressFn = successFn;
+        successFn = data;
+    }
+    return this.each(function() {
+        for( var i = 0; i < $(this)[0].files.length; i++ ){
+            if($(this)[0].files[i]) {
+                var formData = new FormData();
+                formData.append($(this).attr("name"), $(this)[0].files[i]);
+                // if we have post data too
+                if(typeof data == "object") {
+                    for(var i in data) {
+                        formData.append(i,data[i]);
+                    }
+                }
+
+                // do the ajax request
+                $.ajax({
+                    url: remote,
+                    type: 'POST',
+                    xhr: function() {
+                        myXhr = $.ajaxSettings.xhr();
+                        if(myXhr.upload && progressFn){
+                            myXhr.upload.addEventListener('progress',function(prog) {
+                                var value = ~~((prog.loaded / prog.total) * 100);
+
+                                // if we passed a progress function
+                                if(progressFn && typeof progressFn == "function") {
+                                    progressFn(prog,value);
+
+                                // if we passed a progress element
+                                } else if (progressFn) {
+                                    $(progressFn).val(value);
+                                }
+                            }, false);
+                        }
+                        return myXhr;
+                    },
+                    data: formData,
+                    dataType: "json",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    complete : function(res) {
+                        var json;
+                        if(successFn) successFn(json);
+                    }
+                });
+            }
+        }  
+    });
+  };
+  $("#file").on("change",function(progress) {
+    $(".file").upload("ajax/saveimage.php", function(success) {console.log("done",success);},
+        function(prog,value){ console.log(value);$('#prog').val(value);})
+  });
+  
+</script>
+
+
+
+
+  <script type="text/javascript" src="jQuery/jquery-ui.min.js"></script>
+<script type="text/javascript">
+$(function(){
+  
+  $('#prixbar').slider({
+    range: true,
+    min: 200,
+    max: 10000,
+    values: [ 200, 5000 ],
+    step: 20,
+    slide: function( event, ui ) {
+      $('#pmin').val(ui.values[0]);
+      $('#pmax').val(ui.values[1]);
+    }
+  });
+
+  $('#surfbar').slider({
+    range: true,
+    min: 90,
+    max: 10000,
+    step: 10,
+    values: [ 500, 5000 ],
+    slide: function( event, ui ) {
+      $('#smin').val(ui.values[0]);
+      $('#smax').val(ui.values[1]);
+    }
+  });
+
+});
+</script>
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+  <script type="text/javascript" src="js/ajax.js"></script>
+</html>

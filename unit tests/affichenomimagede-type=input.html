@@ -1,0 +1,32 @@
+
+      <script type="text/javascript">
+    /* notre fonction sera appelée à chaque fois que
+    de nouveaux fichiers sont sélectionnés */
+    function getFiles(evt)
+    {
+        // evt.target revient à:
+        // document.getElementById('fileInput')
+        // On récupère la liste de fichiers
+        var files = evt.target.files;
+         
+        // files.length contient le nombre de fichiers
+        var msg = files.length + " fichiers sélectionnés:\n\n";
+         
+        // On parcourt la liste des fichiers sélectionnées
+        for( var i = 0; i < files.length; i++ )
+        {
+            // Example: "- avatar.png (1450 octets)"
+            msg += "- " + files[i].name + " (" + files[i].size + " octets)\n";
+        }
+         
+        // On affiche le message
+        alert(msg);
+    }
+ 
+    window.onload = function()
+    {
+        // On assigne un gestionnaire pour l'événement "change",
+        // c'est-à-dire quand des fichiers sont sélectionnés
+        document.getElementById('fileInput').addEventListener( 'change', getFiles, false );
+    };
+    </script>

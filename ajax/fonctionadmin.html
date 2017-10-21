@@ -1,0 +1,51 @@
+
+
+ <script type='text/javascript'>
+ 
+      function getXhr(){
+                                var xhr = null; 
+        if(window.XMLHttpRequest) // Firefox et autres
+           xhr = new XMLHttpRequest(); 
+        else if(window.ActiveXObject){ // Internet Explorer 
+           try {
+                      xhr = new ActiveXObject("Msxml2.XMLHTTP");
+                  } catch (e) {
+                      xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                  }
+        }
+        else { // XMLHttpRequest non supporté par le navigateur 
+           alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest..."); 
+           xhr = false; 
+        } 
+                                return xhr;
+      }
+ 
+      /**
+      * Méthode qui sera appelée sur le click du bouton
+      */
+     
+      function verif(id,ok){
+        var xhr = getXhr();
+        // On défini ce qu'on va faire quand on aura la réponse
+        xhr.onreadystatechange = function(){
+          // On ne fait quelque chose que si on a tout reçu et que le serveur est ok
+            if(xhr.readyState == 4 && xhr.status == 200){
+            leselect = xhr.responseText;
+            // On se sert de innerHTML pour rajouter les options a la liste
+            tr='tr'+id;
+        document.getElementById(tr).innerHTML = leselect;
+            tri='tri'+id;
+        document.getElementById(tri).innerHTML = leselect;
+        }
+        }
+        // Ici on va voir comment faire du post
+        if (ok=='y'){ xhr.open("POST","../ajax/accept.php",true); }
+        else{ xhr.open("POST","../ajax/refus.php",true); };
+        // ne pas oublier ça pour le post
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        // ne pas oublier de poster les arguments
+
+        // ici, l'id de l'auteur
+        xhr.send("id="+id);
+      }
+    </script>

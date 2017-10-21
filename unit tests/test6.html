@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head><title>test</title></head>
+<body>
+
+
+<input type="file" id="getimage" multiple="multiple" name="files[]">
+
+<fieldset><legend>Votre image ici</legend>
+    <div  id="imgstore"></div>
+</fieldset> 
+
+<script>
+function imageHandler(e2) 
+{ 
+  document.getElementById('imgstore').innerHTML=document.getElementById('imgstore').innerHTML+'<img src="' + e2.target.result +'">';
+}
+     
+function loadimage(e1)
+{        
+var files = e1.target.files;
+for( var i = 0; i < files.length; i++ ){
+  var filename = e1.target.files[i]; 
+  var fr = new FileReader();
+  fr.onload = imageHandler;  
+  fr.readAsDataURL(filename); 
+}}
+
+window.onload=function()
+{
+  document.getElementById("getimage").addEventListener('change', loadimage, false);
+}
+</script>
+
+</body>
+</html>
+
+
+</script>

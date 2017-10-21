@@ -1,0 +1,6 @@
+<php $a='aaaa' ?>
+<div id=<php echo $a ?>zzzzzzzzzzzzzzzzzzzzzz</div>
+<script>
+$(document).ready(function(){
+    $(".<php echo $a ?>").hide();
+    </script>
